@@ -21,7 +21,7 @@ app.use("/api/public", publicRoutes);
 
 
 app.get("/", (req, res) => {
-    res.send("API Running 🚀");
+    res.send("API Running Successfully ...");
 });
 
 const PORT = process.env.PORT || 5000;
