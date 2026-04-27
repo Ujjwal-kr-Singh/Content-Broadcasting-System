@@ -1,0 +1,40 @@
+ARCHITECTURE
+
+1. Authentication & RBAC
+   - JWT-based token authentication on protected routes
+   - Role-based access: Teacher (upload), Principal (approve/reject)
+
+2. Content Flow
+   Teacher uploads content → status = pending
+   Principal reviews:
+     Approve → content becomes eligible for scheduling
+     Reject  → rejection reason is stored
+
+3. Scheduling
+   Computed dynamically at request time (no cron needed):
+     - Filter approved content for the given teacher
+     - Apply time-window check (start_time ≤ now ≤ end_time)
+     - Sort by ID for consistent rotation order
+     - Use modulo on current timestamp against total duration
+     - Return the content item that falls in the current slot
+
+4. Subject Filtering
+   Each content is tagged with a subject.
+   The /live endpoint accepts an optional subject query param.
+
+5. File Uploads
+   Multer handles multipart uploads to local disk.
+   Validated by MIME type (JPEG, PNG, GIF) and size (max 10MB).
+
+6. Database
+   PostgreSQL with Sequelize ORM.
+   Tables: Users, Contents
+   Associations: User hasMany Content, Content belongsTo User
+
+7. Middleware Stack
+   - authMiddleware: verifies JWT, attaches user to request
+   - roleMiddleware: checks user role against allowed roles
+
+8. Pagination
+   All list endpoints support page/limit query params.
+   Default: 20 items per page, max: 100.
