@@ -7,6 +7,10 @@ exports.verifyToken = (req, res, next) => {
         return res.status(403).json({ msg: "No token provided" });
     }
 
+    if (!header.startsWith("Bearer ")) {
+        return res.status(403).json({ msg: "Invalid token format" });
+    }
+
     try {
         const token = header.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

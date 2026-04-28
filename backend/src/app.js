@@ -13,10 +13,10 @@ const authRoutes = require("./routes/authRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const approvalRoutes = require("./routes/approvalRoutes");
 const publicRoutes = require("./routes/publicRoutes");
+
 app.use("/api/auth", authRoutes);
+app.use("/api/content", contentRoutes);
 app.use("/api/approval", approvalRoutes);
-// app.use("/api/content", contentRoutes);
-// app.use("/api/content", publicRoutes);
 app.use("/api/public", publicRoutes);
 
 

@@ -12,6 +12,12 @@ exports.uploadContent = async (req, res) => {
             return res.status(400).json({ msg: "File required" });
         }
 
+        if (!start_time || !end_time) {
+            return res.status(400).json({
+                msg: "start_time and end_time required"
+            });
+        }
+        
         if (start_time && end_time) {
             const start = new Date(start_time);
             const end = new Date(end_time);
@@ -38,10 +44,7 @@ exports.uploadContent = async (req, res) => {
             end_time
         });
 
-        res.json({
-            msg: "Uploaded successfully (pending approval)",
-            content
-        });
+        res.json({ msg: "Uploaded successfully (pending approval)", content });
 
     } catch (err) {
         res.status(500).json({ error: err.message });

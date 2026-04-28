@@ -38,6 +38,14 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        if (!email) {
+            return res.status(400).json({ msg: "Email required" });
+        }
+        
+        if (!password) {
+            return res.status(400).json({ msg: "Password required" });
+        }
+        
         const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(404).json({ msg: "User not found" });
