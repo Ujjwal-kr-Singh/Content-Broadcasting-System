@@ -5,6 +5,7 @@ const contentController = require("../controllers/contentController");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const { allowRoles } = require("../middlewares/roleMiddleware");
 const upload = require("../utils/upload");
+const rateLimiter = require("../middlewares/rateLimiter");
 
 router.post( "/upload", verifyToken, allowRoles("teacher"), upload.single("file"), contentController.uploadContent );
 
